@@ -1,5 +1,7 @@
 # Go Template
 
+[![Go Report](https://goreportcard.com/badge/github.com/mlavergn/go-template)](https://goreportcard.com/report/github.com/mlavergn/go-template)
+
 Go application template with a local module named `demo`
 
 App and `demo` module can be worked on separately and `demo` will be
