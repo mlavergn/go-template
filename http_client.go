@@ -6,18 +6,17 @@ import (
 	"net/http"
 )
 
-type Client struct {
+type HTTPClient struct {
 }
 
-func NewClient() Client {
-	return Client{}
+func NewHTTPClient() HTTPClient {
+	return HTTPClient{}
 }
 
-func (id Client) get(url string) {
+func (id HTTPClient) get(url string) {
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Println(err)
-		return
+		panic(err.Error())
 	}
 	defer resp.Body.Close()
 	log.Println("Response status:", resp.Status)
@@ -26,6 +25,6 @@ func (id Client) get(url string) {
 		log.Println(scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
-		log.Println(err)
+		panic(err.Error())
 	}
 }

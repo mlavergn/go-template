@@ -3,17 +3,23 @@ package main
 import (
 	"demo"
 	"log"
-
-	"github.com/google/uuid"
 )
 
 func main() {
 	log.Println(demo.Message())
-	log.Println(uuid.New().String())
-	log.Println("Client demo")
-	client := NewClient()
+
+	log.Println("DB client demo")
+	db := NewDBClient("demo.db")
+	db.exec("create table dual (name varchar(64) null)")
+	db.exec("insert into dual (name) values ('X')")
+	result := db.query("select * from dual")
+	log.Println(result)
+
+	log.Println("HTTP client demo")
+	client := NewHTTPClient()
 	client.get("http://example.com")
-	log.Println("Server demo")
-	server := NewServer()
+
+	log.Println("HTTP server demo")
+	server := NewHTTPServer()
 	server.start()
 }

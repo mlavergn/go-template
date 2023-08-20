@@ -1,35 +1,34 @@
 package main
 
 import (
-	"log"
 	"net/http"
 )
 
-type Server struct {
+type HTTPServer struct {
 }
 
-func NewServer() Server {
-	return Server{}
+func NewHTTPServer() HTTPServer {
+	return HTTPServer{}
 }
 
-func (id Server) start() {
+func (id HTTPServer) start() {
 	http.HandleFunc("/", id.rootHandler)
 	http.HandleFunc("/secure/", id.secureHandler)
 	err := http.ListenAndServe(":80", nil)
 	// err := http.ListenAndServeTLS(":443", "demo.crt", "demo.key", nil)
 	if err != nil {
-		log.Fatal("failed to start listener", err)
+		panic(err.Error())
 	}
 }
 
-func (id Server) rootHandler(resp http.ResponseWriter, req *http.Request) {
+func (id HTTPServer) rootHandler(resp http.ResponseWriter, req *http.Request) {
 	defer req.Body.Close()
 	resp.Header().Set("Content-Type", "text/html")
 	resp.Header().Set("Connection", "close")
 	resp.Write([]byte("<head></head><body><h2>OK</h2></body>"))
 }
 
-func (id Server) secureHandler(resp http.ResponseWriter, req *http.Request) {
+func (id HTTPServer) secureHandler(resp http.ResponseWriter, req *http.Request) {
 	defer req.Body.Close()
 	resp.Header().Set("Content-Type", "text/html")
 	resp.Header().Set("Connection", "close")
